@@ -115,3 +115,59 @@ const data = [
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
+
+function articleMaker(article) {
+  // creating new elements
+  let divArticle = document.createElement('div');
+  let h2Tittle = document.createElement('h2');
+  let spanBtn = document.createElement('span');
+
+  // creating 4 paragraph elements
+  const pList = [article.firstParagraph, article.secondParagraph, article.thirdParagraph];
+  const p4 = [];
+  for (let index = 0; index < 4; index++) {
+    p4.push(document.createElement('p'));
+    index > 0 ? p4[index].innerHTML = pList[index - 1] : console.log('false');
+  }
+
+  // setting new attributes
+  divArticle.setAttribute('class', 'article');
+  p4[0].setAttribute('class', 'date');
+  spanBtn.setAttribute('class', 'expandButton')
+  // inserting content
+  h2Tittle.innerHTML = `${article.title}`;
+  p4[0].innerHTML = `${article.date}`;
+  spanBtn.innerHTML = "+";
+
+  // appending children to the parent div element
+  let nodes = [h2Tittle, ...p4] ;
+  for(var i = 0; i < nodes.length; i++) {
+    divArticle.appendChild(nodes[i]);
+  }
+  divArticle.appendChild(spanBtn);
+
+  // event listener to toggle
+  spanBtn.addEventListener('click', ()  => {
+    divArticle.className = 'article-open';
+  })
+
+  return divArticle;
+}
+
+for (let index = 0; index < data.length; index++) {
+  let newElement = articleMaker(data[index]);
+  document.querySelector('.articles').appendChild(newElement);
+}
+
+// creating my own article
+const myArticle = {
+  title: 'My Article',
+  date: 'Oct 31, 1990',
+  firstParagraph: 'this is part of my first paragraph',
+  secondParagraph: 'this is part of my second paragraph',
+  thirdParagraph: 'this is part of my third paragraph'
+}
+
+document.querySelector('.articles').appendChild(articleMaker(myArticle));
+
+console.log('ITS WORKING');
